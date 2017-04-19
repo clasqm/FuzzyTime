@@ -1,0 +1,175 @@
+#!/bin/env yab
+################################
+############# Prologue #############
+################################
+
+//Yabadabbadoo notification
+########DO NOT RENAME THIS FILE!########
+//Yabadabbadoo needs it to function.
+ 
+//ProgramName$ = "FuzzyTime"
+//AuthorName$ = "Michel Clasquin-Johnson <clasqm@gmail.com>"
+//ProgramVersion$ = "V0.1"
+//ProgramBriefDescription$ = "Displays the date and time in \"fuzzy\" format."
+//ProgramLicense$ = "Public Domain"
+//ProgramAcknowledgements$ ="With thanks to Chris Tsai for fuzzy_time.py"
+ 
+//*************************
+//*****Global Variables****
+//*************************
+ 
+## Technically, yab does not require you to declare global variables,
+##It just is a really, really good idea to do it anyway.
+// set DEBUG = 1 to print out all messages on the console
+DEBUG = 0
+//change this to DEBUG = 0 when you are ready to bind the program for distribution
+ 
+//see if a settings file exist. If so, read positions
+open #1,"/boot/home/config/settings/FuzzyTime.settings", "a": close #1 //create the file if it does not exist
+open "/boot/home/config/settings/FuzzyTime.settings" for reading as #1
+line input #1 across
+line input #1 updown
+close #1
+if across = 0 or updown = 0 then //ie if the settings file was empty
+	across = 100
+	updown = 100
+endif
+xwidth = 140
+yheight = 85
+acrossend = across + xwidth
+updownend = updown + yheight
+moving=0
+DefaultInterval=60
+
+  
+##########################
+######Preliminary Commands#####
+##########################
+
+## Commands to run before the Main Loop come here.
+## e.g. setting up a window with a menu.
+
+IntervalStart=GetTiming() 
+OpenWindow()
+ 
+#######End of Prologue#######
+
+
+//Yabadabbadoo notification
+########DO NOT RENAME THIS FILE!########
+//Yabadabbadoo needs it to function.
+
+//Main Message Loop
+dim msg$(1)
+while(not leavingLoop)
+	nCommands = token(message$, msg$(), "|")
+	for everyCommand = 1 to nCommands
+		if(DEBUG and msg$(everyCommand)<>"") print msg$(everyCommand)
+		switch(msg$(everyCommand))
+			case "_QuitRequested":
+			case "MainWindow:_QuitRequested":
+				Ask2Leave()
+				break
+			case "MainWindow:Help:About":
+				Alert ProgramName$ + " " + ProgramVersion$ + "\n" + "by " + AuthorName$ +"\n\n" + ProgramBriefDescription$ + "\n" + ProgramLicense$ + "\n" + ProgramAcknowledgements$, "OK", "none"
+			default:
+				break
+		end switch
+	next everyCommand
+	CheckMouse()
+	if GetTiming() - IntervalStart >DefaultInterval then
+		PrintTime()
+		IntervalStart = GetTiming()
+	endif
+wend
+
+sub Ask2Leave()
+	local getout
+	getout= Alert "Do you want to Quit FuzzyTime?","Quit","Cancel","","Warning"
+	switch getout
+		case 1
+			across=Window Get "MainWindow", "Position-X"
+			updown=Window Get "MainWindow", "Position-Y"
+			open "/boot/home/config/settings/FuzzyTime.settings" for writing as #1
+			print #1 across
+			print #1 updown
+			close #1
+			CloseWindow()
+			end
+			break
+		default
+			break
+	end switch
+end sub
+
+sub CheckMouse()
+local mouse$, num, w$(5)
+	mouse$ = MOUSE MESSAGE$ ("MainWindow")
+	num=token(mouse$, w$(), ":")
+	if w$(5)<>"0" Ask2Leave()
+	if w$(3)<>"0" MoveWindow()
+	wait 0.1 // avoid flickering
+end sub
+
+sub CloseWindow()
+	//Close down the main window
+	window close "MainWindow"
+end sub
+
+sub GetTiming()
+	local num, w$(4)
+	num=token(time$,w$(),"-")
+	return val(w$(4))
+end sub
+
+sub MoveWindow()
+	if moving= 0 then
+		window set "MainWindow", "look", "bordered"
+		moving = 1
+		return
+	endif
+	if moving = 1 then
+		window set "MainWindow", "look", "floating"
+		moving = 0
+		return
+	endif 
+end sub
+
+sub OpenWindow()
+window open across,updown to acrossend, updownend, "MainWindow", "FuzzyTime"
+	window set "MainWindow", "look", "bordered"
+	window set "MainWindow", "Flags", "Accept-First-Click"
+	window set "MainWindow", "Flags", "not-resizable"
+	window set "MainWindow", "Flags", "not-zoomable"
+	Window set "MainWindow", "Workspace", "All"
+	redc=255: greenc=250: bluec=170
+	for f = yheight/2 to 0 step -1
+		draw set "highcolor", redc, greenc, bluec, "MainWindow"
+		draw line 0, f to xwidth,f, "MainWindow"
+		greenc=greenc-1: bluec = bluec -4
+	next f
+	redc=255: greenc=250: bluec=170
+	for f = yheight/2 to yheight
+		draw set "highcolor", redc, greenc, bluec, "MainWindow"
+		draw line 0, f to xwidth,f, "MainWindow"
+		greenc=greenc-1: bluec = bluec -4
+	next f
+
+	draw set "highcolor", 0,0,0, "MainWindow"
+	Tooltip "MainWindow", "Left-click to move,\nor right-click to Quit."
+	textedit 5, 5 to xwidth -5, yheight -5, "TimeBox", 0, "MainWindow" 
+	textedit set "TimeBox", "wordwrap", true
+	textedit set "TimeBox", "editable", false
+	textedit color "TimeBox", "bgcolor", 255,250,170
+	Tooltip "TimeBox", "Left-click BORDER to move,\nor right-click BORDER to Quit."
+	PrintTime()
+end sub
+
+sub PrintTime()
+	local the_time$
+	the_time$ = system$("fuzzy_time.py") 
+	the_time$ = left$(the_time$,len(the_time$)-1) //strip off trailing newline
+	textedit clear "TimeBox"
+	textedit add "TimeBox", the_time$
+end sub
+

@@ -1,0 +1,30 @@
+sub OpenWindow()
+window open across,updown to acrossend, updownend, "MainWindow", "FuzzyTime"
+	window set "MainWindow", "look", "bordered"
+	window set "MainWindow", "Flags", "Accept-First-Click"
+	window set "MainWindow", "Flags", "not-resizable"
+	window set "MainWindow", "Flags", "not-zoomable"
+	Window set "MainWindow", "Workspace", "All"
+	redc=255: greenc=250: bluec=170
+	for f = yheight/2 to 0 step -1
+		draw set "highcolor", redc, greenc, bluec, "MainWindow"
+		draw line 0, f to xwidth,f, "MainWindow"
+		greenc=greenc-1: bluec = bluec -4
+	next f
+	redc=255: greenc=250: bluec=170
+	for f = yheight/2 to yheight
+		draw set "highcolor", redc, greenc, bluec, "MainWindow"
+		draw line 0, f to xwidth,f, "MainWindow"
+		greenc=greenc-1: bluec = bluec -4
+	next f
+
+	draw set "highcolor", 0,0,0, "MainWindow"
+	Tooltip "MainWindow", "Left-click to move,\nor right-click to Quit."
+	textedit 5, 5 to xwidth -5, yheight -5, "TimeBox", 0, "MainWindow" 
+	textedit set "TimeBox", "wordwrap", true
+	textedit set "TimeBox", "editable", false
+	textedit color "TimeBox", "bgcolor", 255,250,170
+	Tooltip "TimeBox", "Left-click BORDER to move,\nor right-click BORDER to Quit."
+	PrintTime()
+end sub
+

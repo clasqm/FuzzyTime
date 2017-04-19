@@ -1,0 +1,6 @@
+sub GetTiming()
+	local num, w$(4)
+	num=token(time$,w$(),"-")
+	return val(w$(4))
+end sub
+

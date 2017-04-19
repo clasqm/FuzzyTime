@@ -1,0 +1,9 @@
+sub CheckMouse()
+local mouse$, num, w$(5)
+	mouse$ = MOUSE MESSAGE$ ("MainWindow")
+	num=token(mouse$, w$(), ":")
+	if w$(5)<>"0" Ask2Leave()
+	if w$(3)<>"0" MoveWindow()
+	wait 0.1 // avoid flickering
+end sub
+

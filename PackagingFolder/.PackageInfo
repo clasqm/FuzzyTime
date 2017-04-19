@@ -1,0 +1,35 @@
+name				fuzzytime
+version				0.1.1-5
+architecture			x86_gcc2
+
+
+summary			"Desktop applet to display the date and time in 'fuzzy' format"
+Description			"This desktop applet displays the time and date not in the precise format you would expect from a computer, but in a deliberately 'fuzzy', human-friendly way.
+
+USAGE: 
+
+To MOVE FuzzyTime, left-click the 5-pixel yellow border. It mysteriously grows a standard yellow tab and a grey border so you can move it anywhere on your screen. Left-click the border again to make the tab go away after you have moved the applet.
+
+To EXIT FuzzyTime, right-click that same border. FuzzyTime will remember its previous position every time you start it if you exit it this way. It will not remember it if your system crashes or is shut down first.
+
+FuzzyTime bundles Chris Tsai's CLI utility fuzzy_time.py, obtained from SourceForge and slightly adapted.
+"
+
+packager			"Michel Clasquin-Johnson <clasqm@gmail.com>"
+vendor				"clasqm"
+copyrights			"Chris Tsai, Michel Clasquin-Johnson"
+licenses				"Public Domain"
+provides {
+					fuzzytime = 0.1.1-5
+					cmd:fuzzy_time.py
+					app:FuzzyTime
+					cmd:fuzzytime
+}
+requires {
+					yab>=1.7.5.3
+					python >=2.7.11
+					haiku>=r1~alpha4_pm_hrev50032-1
+}
+urls {
+				http://clasquin-johnson.co.za/michel/haiku
+}

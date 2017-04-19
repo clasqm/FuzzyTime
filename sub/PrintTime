@@ -1,0 +1,8 @@
+sub PrintTime()
+	local the_time$
+	the_time$ = system$("fuzzy_time.py") 
+	the_time$ = left$(the_time$,len(the_time$)-1) //strip off trailing newline
+	textedit clear "TimeBox"
+	textedit add "TimeBox", the_time$
+end sub
+

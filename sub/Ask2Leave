@@ -1,0 +1,19 @@
+sub Ask2Leave()
+	local getout
+	getout= Alert "Do you want to Quit FuzzyTime?","Quit","Cancel","","Warning"
+	switch getout
+		case 1
+			across=Window Get "MainWindow", "Position-X"
+			updown=Window Get "MainWindow", "Position-Y"
+			open "/boot/home/config/settings/FuzzyTime.settings" for writing as #1
+			print #1 across
+			print #1 updown
+			close #1
+			CloseWindow()
+			end
+			break
+		default
+			break
+	end switch
+end sub
+

@@ -1,0 +1,56 @@
+#!/bin/env yab
+################################
+############# Prologue #############
+################################
+
+//Yabadabbadoo notification
+########DO NOT RENAME THIS FILE!########
+//Yabadabbadoo needs it to function.
+ 
+//ProgramName$ = "FuzzyTime"
+//AuthorName$ = "Michel Clasquin-Johnson <clasqm@gmail.com>"
+//ProgramVersion$ = "V0.1"
+//ProgramBriefDescription$ = "Displays the date and time in \"fuzzy\" format."
+//ProgramLicense$ = "Public Domain"
+//ProgramAcknowledgements$ ="With thanks to Chris Tsai for fuzzy_time.py"
+ 
+//*************************
+//*****Global Variables****
+//*************************
+ 
+## Technically, yab does not require you to declare global variables,
+##It just is a really, really good idea to do it anyway.
+// set DEBUG = 1 to print out all messages on the console
+DEBUG = 0
+//change this to DEBUG = 0 when you are ready to bind the program for distribution
+ 
+//see if a settings file exist. If so, read positions
+open #1,"/boot/home/config/settings/FuzzyTime.settings", "a": close #1 //create the file if it does not exist
+open "/boot/home/config/settings/FuzzyTime.settings" for reading as #1
+line input #1 across
+line input #1 updown
+close #1
+if across = 0 or updown = 0 then //ie if the settings file was empty
+	across = 100
+	updown = 100
+endif
+xwidth = 140
+yheight = 85
+acrossend = across + xwidth
+updownend = updown + yheight
+moving=0
+DefaultInterval=60
+
+  
+##########################
+######Preliminary Commands#####
+##########################
+
+## Commands to run before the Main Loop come here.
+## e.g. setting up a window with a menu.
+
+IntervalStart=GetTiming() 
+OpenWindow()
+ 
+#######End of Prologue#######
+

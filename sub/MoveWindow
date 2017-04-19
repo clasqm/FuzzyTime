@@ -1,0 +1,13 @@
+sub MoveWindow()
+	if moving= 0 then
+		window set "MainWindow", "look", "bordered"
+		moving = 1
+		return
+	endif
+	if moving = 1 then
+		window set "MainWindow", "look", "floating"
+		moving = 0
+		return
+	endif 
+end sub
+
