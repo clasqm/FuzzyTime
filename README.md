@@ -4,7 +4,9 @@ by Michel Clasquin-Johnson
 
 Written for Haiku in yab, using the Yabadabbadoo IDE
 
-This desktop applet displays the time and date not in the precise format you would expect from a computer, but in a deliberately 'fuzzy', human-freindly way
+This desktop applet displays the time and date not in the precise format you would expect from a computer, but in a deliberately 'fuzzy', human-friendly way
+
+![FuzzyTime](fuzzytime.png)
 
 USAGE: 
 
