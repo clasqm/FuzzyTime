@@ -1,4 +1,5 @@
-FuzzyTime
+# FuzzyTime
+
 by Michel Clasquin-Johnson
 
 Written for Haiku in yab, using the Yabadabbadoo IDE
@@ -14,3 +15,5 @@ To EXIT FuzzyTime, right-click that same border. FuzzyTime will remember its pre
 FuzzyTime bundles Chris Tsai's CLI utility fuzzy_time.py, obtained from SourceForge and slightly adapted
 
 If you want FuzzyTime to appear on every boot, put a link to it in /boot/home/config/settings/boot/launch
+
+Get it here: https://github.com/clasqm/FuzzyTime
